@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Virtual environments
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data
+data/raw/
+data/processed/
+
+# Logs
+*.log
+
+# Database files
+*.db
+*.duckdb
+
+# OMOP vocabularies (obtain separately from OHDSI Athena)
+vocabularies/
+
+# OS/editor files
+.vscode/
+.DS_Store
