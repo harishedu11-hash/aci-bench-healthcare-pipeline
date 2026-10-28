@@ -1,0 +1,11 @@
+disease_1,disease_2,occurrences
+Essential hypertension,Mitral valve regurgitation,3
+Congestive heart failure,Mitral valve regurgitation,3
+Congestive heart failure,Essential hypertension,2
+Depressive disorder,Essential hypertension,2
+Depressive disorder,Mitral valve regurgitation,1
+Congestive heart failure,Type 2 diabetes,1
+Congestive heart failure,Urolithiasis,1
+Arthritis,Essential hypertension,1
+Essential hypertension,Urolithiasis,1
+Mitral valve regurgitation,Urolithiasis,1
