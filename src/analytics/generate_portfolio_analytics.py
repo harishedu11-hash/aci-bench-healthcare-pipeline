@@ -20,7 +20,7 @@ LIMIT 10
 
 print(patient_burden)
 patient_burden.to_csv(
-    "portfolio_data/patient_burden.csv",
+    "data/processed/analytics/patient_complexity.csv",
     index=False
 )
 
@@ -41,7 +41,7 @@ LIMIT 10
 
 print(polypharmacy)
 polypharmacy.to_csv(
-    "portfolio_data/polypharmacy.csv",
+    "data/processed/analytics/polypharmacy.csv",
     index=False
 )
 
@@ -67,7 +67,7 @@ ORDER BY n DESC
 
 print(hf_comorbidities)
 hf_comorbidities.to_csv(
-    "portfolio_data/hf_comorbidities.csv",
+    "data/processed/analytics/hf_comorbidities.csv",
     index=False
 )
 
@@ -91,7 +91,7 @@ ORDER BY n DESC
 
 print(hf_medications)
 hf_medications.to_csv(
-    "portfolio_data/hf_medications.csv",
+    "data/processed/analytics/hf_medications.csv",
     index=False
 )
 
@@ -117,7 +117,7 @@ LIMIT 10
 
 print(cooccurrence)
 cooccurrence.to_csv(
-    "portfolio_data/cooccurrence.csv",
+    "data/processed/analytics/disease_cooccurrence.csv",
     index=False
 )
 
@@ -149,6 +149,6 @@ ORDER BY burden_group
 
 print(multimorbidity)
 multimorbidity.to_csv(
-    "portfolio_data/multimorbidity.csv",
+    "data/processed/analytics/multimorbidity.csv",
     index=False
 )
