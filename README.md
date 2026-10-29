@@ -34,6 +34,54 @@ This project demonstrates how clinical documentation can be transformed into sta
 
 ---
 
+## Dataset
+
+This project uses **ACI-Bench** (Ambient Clinical Intelligence Benchmark), a publicly available benchmark corpus of doctor-patient conversations paired with clinical notes. It was published in *Scientific Data* (Nature, 2023) by researchers from Microsoft, Nuance, and the University of Washington.
+
+> Yim, W., Fu, Y., Ben Abacha, A., Snider, N., Lin, T., & Yetisgen, M. (2023). *Aci-bench: a Novel Ambient Clinical Intelligence Dataset for Benchmarking Automatic Visit Note Generation.* Scientific Data, 10, 586. [https://doi.org/10.1038/s41597-023-02487-3](https://doi.org/10.1038/s41597-023-02487-3)
+
+### About ACI-Bench
+
+- **207 encounters** of doctor-patient dialogue paired with structured clinical notes
+- Created by domain experts (physicians, scribes, and clinical informaticians) through **role-played encounters**; no real patient data was used or disclosed
+- Notes follow a SOAP-inspired structure: *Subjective*, *Objective Exam*, *Objective Results*, and *Assessment & Plan*
+- Notes were annotated and cleaned to remove unsupported content and correct errors
+- Three encounter types: virtual assistant (`virtassist`), virtual scribe (`virtscribe`), and ambient clinical intelligence (`aci`)
+- Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+
+| Split | Encounters |
+|---|---|
+| Train | 67 |
+| Validation | 20 |
+| Test 1 / 2 / 3 | 40 each |
+
+### Data Access
+
+- **Dataset:** [Figshare (DOI: 10.6084/m9.figshare.22494601)](https://doi.org/10.6084/m9.figshare.22494601)
+- **Original code:** [github.com/wyim/aci-bench](https://github.com/wyim/aci-bench)
+
+### How It Is Used in This Project
+
+ACI-Bench was originally designed to benchmark automatic note generation. This project uses its clinical notes differently: as realistic, free-text clinical documentation that is transformed into FHIR resources, OMOP CDM tables, and standardized SNOMED CT / RxNorm concepts for analytics.
+
+> **Note:** ACI-Bench encounters are role-played and contain no real patient data. Results in this repository demonstrate a pipeline and methodology, not clinical findings, and should not be used for clinical decision-making.
+
+### Citation
+
+```bibtex
+@article{yim2023acibench,
+  title   = {Aci-bench: a Novel Ambient Clinical Intelligence Dataset for Benchmarking Automatic Visit Note Generation},
+  author  = {Yim, Wen-wai and Fu, Yujuan and Ben Abacha, Asma and Snider, Neal and Lin, Thomas and Yetisgen, Meliha},
+  journal = {Scientific Data},
+  volume  = {10},
+  pages   = {586},
+  year    = {2023},
+  doi     = {10.1038/s41597-023-02487-3}
+}
+```
+
+* * *
+
 ## Architecture
 
 The pipeline transforms unstructured clinical notes into standardized, analytics-ready healthcare data in five stages:
