@@ -36,7 +36,9 @@ This project demonstrates how clinical documentation can be transformed into sta
 
 ## Architecture
 
-```text
+The pipeline transforms unstructured clinical notes into standardized, analytics-ready healthcare data in five stages:
+
+```
 Clinical Notes
         ↓
 Natural Language Processing
@@ -48,213 +50,166 @@ OMOP Common Data Model
 ATHENA Standard Vocabularies
         ↓
 DuckDB Analytics
+```
 
-Pipeline Components
-1. Clinical NLP
+* * *
+
+## Pipeline Components
+
+### 1. Clinical NLP
 
 Clinical notes are processed to identify:
 
-Conditions
-Medications
-Clinical entities
+- Conditions
+- Medications
+- Other clinical entities
 
-Example:
+**Input**
 
-Input:
+> "Patient has congestive heart failure. Continue Lasix and Lisinopril."
 
-Patient has congestive heart failure. Continue Lasix and Lisinopril.
+**Output**
 
-Output:
-
+```json
 {
-  "conditions": [
-    "congestive heart failure"
-  ],
-  "medications": [
-    "lasix",
-    "lisinopril"
-  ]
+  "conditions": ["congestive heart failure"],
+  "medications": ["lasix", "lisinopril"]
 }
+```
 
-2. FHIR Interoperability Layer
+### 2. FHIR Interoperability Layer
 
 The extracted information is transformed into FHIR R4 resources:
 
-Patient
-Encounter
-Condition
-MedicationStatement
-Bundle
+- Patient
+- Encounter
+- Condition
+- MedicationStatement
+- Bundle
 
-Example:
+**Example**
 
+```json
 {
   "resourceType": "Condition",
-  "clinicalStatus": {
-    "text": "active"
-  },
-  "verificationStatus": {
-    "text": "confirmed"
-  }
+  "clinicalStatus": { "text": "active" },
+  "verificationStatus": { "text": "confirmed" }
 }
-
+```
 
 FHIR enables healthcare information exchange between systems.
 
-3. OMOP Common Data Model
+### 3. OMOP Common Data Model
 
 FHIR resources are transformed into OMOP CDM tables:
 
-FHIR	OMOPPatient	PERSON
-Encounter	VISIT_OCCURRENCE
-Condition	CONDITION_OCCURRENCE
-MedicationStatement	DRUG_EXPOSURE
+| FHIR Resource | OMOP Table |
+|---|---|
+| Patient | PERSON |
+| Encounter | VISIT_OCCURRENCE |
+| Condition | CONDITION_OCCURRENCE |
+| MedicationStatement | DRUG_EXPOSURE |
 
-Generated tables:
+### 4. Vocabulary Standardization
 
-PERSON
-VISIT_OCCURRENCE
-CONDITION_OCCURRENCE
-DRUG_EXPOSURE
-4. Vocabulary Standardization
+Clinical terms are mapped to standard vocabularies downloaded from ATHENA.
 
-Clinical terms are mapped to standard vocabularies downloaded from ATHENA:
+**Conditions → SNOMED CT**
 
-Conditions
+| Source Term | SNOMED Concept |
+|---|---|
+| Hypertension | Essential hypertension |
+| Depression | Depressive disorder |
+| Congestive heart failure | Congestive heart failure |
+| Arthritis | Arthritis |
 
-Mapped to:
+**Medications → RxNorm**
 
-SNOMED CT
+| Source Medication | RxNorm Concept |
+|---|---|
+| Lasix | Lasix |
+| Lisinopril | Lisinopril Oral Product |
+| Synthroid | Synthroid |
+| Tylenol | Acetaminophen Oral Film Product |
 
-Examples:
+* * *
 
-Source Term	SNOMED ConceptHypertension	Essential hypertension
-Depression	Depressive disorder
-Congestive heart failure	Congestive heart failure
-Arthritis	Arthritis
-Medications
+## Analytics Framework
 
-Mapped to:
+The project demonstrates analytics at three levels commonly used in Digital Health and OHDSI research.
 
-RxNorm
+### Level 1 — Patient Analytics
 
-Examples:
+- Which patients have the highest disease burden?
+- Which patients receive the largest number of medications?
 
-Source Medication	RxNorm ConceptLasix	Lasix
-Lisinopril	Lisinopril Oral Product
-Synthroid	Synthroid
-Tylenol	Acetaminophen Oral Film Product
-Analytics Framework
+> **Example insight:** Patient D2N001 has four chronic conditions and represents the highest disease burden in the cohort.
 
-The project demonstrates analytics at three levels frequently used in Digital Health and OHDSI research.
+### Level 2 — Cohort Analytics
 
-Level 1 — Patient Analytics
+- What comorbidities occur among heart failure patients?
+- Which medications are used among heart failure patients?
 
-Questions:
+> **Example insight:** Heart failure patients commonly present with mitral valve regurgitation, hypertension, and type 2 diabetes. Common medications include Lasix and Lisinopril.
 
-Which patients have the highest disease burden?
-Which patients receive the largest number of medications?
+### Level 3 — Population Analytics
 
-Example Insight:
+- Which diseases tend to occur together?
+- How common is multimorbidity?
 
-Patient D2N001 has four chronic conditions and represents the highest disease burden in the cohort.
+**Most common disease relationships**
 
-Level 2 — Cohort Analytics
+- Congestive heart failure ↔ Mitral valve regurgitation
+- Essential hypertension ↔ Mitral valve regurgitation
+- Congestive heart failure ↔ Essential hypertension
 
-Questions:
+**Multimorbidity distribution**
 
-What comorbidities occur among heart failure patients?
-Which medications are used among heart failure patients?
+| Conditions per Patient | Patients |
+|---|---|
+| One | 29 |
+| Two | 7 |
+| Three | 2 |
+| Four or more | 1 |
 
-Example Insight:
+* * *
 
-Heart failure patients commonly present with:
+## Technologies Used
 
-Mitral valve regurgitation
-Hypertension
-Type 2 diabetes
+- **Clinical Standards:** HL7 FHIR R4, OMOP Common Data Model, SNOMED CT, RxNorm
+- **Data & Analytics:** Python, Pandas, DuckDB
+- **Terminology Services:** ATHENA Vocabulary Repository
 
-Common medications include:
+* * *
 
-Lasix
-Lisinopril
-Level 3 — Population Analytics
+## Example Use Cases
 
-Questions:
+- **Clinical Decision Support:** Identify patients with complex disease profiles
+- **Population Health:** Analyze disease prevalence and multimorbidity patterns
+- **Clinical Research:** Construct disease-specific cohorts
+- **Digital Health Interoperability:** Exchange healthcare information through FHIR resources
 
-Which diseases tend to occur together?
-How common is multimorbidity?
+* * *
 
-Example Insight:
+## Future Enhancements
 
-Most common disease relationships:
+- Interactive clinical analytics dashboard
+- Disease co-occurrence network visualization
+- Cohort exploration interface
+- FHIR Observation resources
+- OMOP Measurement table generation
+- Additional ATHENA vocabulary integration
 
-Congestive heart failure ↔ Mitral valve regurgitation
-Essential hypertension ↔ Mitral valve regurgitation
-Congestive heart failure ↔ Essential hypertension
+* * *
 
-Multimorbidity distribution:
+## Author
 
-29 patients with one condition
-7 patients with two conditions
-2 patients with three conditions
-1 patient with four or more conditions
-Technologies Used
-Clinical Standards
-HL7 FHIR R4
-OMOP Common Data Model
-SNOMED CT
-RxNorm
-Data & Analytics
-Python
-Pandas
-DuckDB
-Terminology Services
-ATHENA Vocabulary Repository
-Example Use Cases
-Clinical Decision Support
+**Harish Mohankumar**
+MSc Health Informatics, Karolinska Institutet
+Research Collaboration: National University of Singapore (NUS), Department of Biomedical Informatics
 
-Identify patients with complex disease profiles.
+**Focus Areas:** Digital Health · Clinical NLP · Interoperability · FHIR · OMOP CDM · Healthcare Analytics
 
-Population Health
+* * *
 
-Analyze disease prevalence and multimorbidity patterns.
-
-Clinical Research
-
-Construct disease-specific cohorts.
-
-Digital Health Interoperability
-
-Exchange healthcare information through FHIR resources.
-
-Future Enhancements
-
-Planned extensions include:
-
-Interactive clinical analytics dashboard
-Disease co-occurrence network visualization
-Cohort exploration interface
-FHIR Observation resources
-OMOP Measurement table generation
-Additional ATHENA vocabulary integration
-Author
-
-Harish Mohankumar
-
-MSc Health Informatics Karolinska Institutet
-
-Research Collaboration: National University of Singapore (NUS) Department of Biomedical Informatics
-
-Focus Areas:
-
-Digital Health
-Clinical NLP
-Interoperability
-FHIR
-OMOP CDM
-Healthcare Analytics
-
----
-
-A good README should allow a clinician or healthcare researcher to understand the project in 5 minutes without reading a single line of code. This README is written exactly with that goal. 🚀
+*A good README should allow a clinician or healthcare researcher to understand the project in 5 minutes without reading a single line of code.* 🚀
