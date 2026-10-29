@@ -205,8 +205,7 @@ The project demonstrates analytics at three levels commonly used in Digital Heal
 ## Author
 
 **Harish Mohankumar**
-MSc Health Informatics, Karolinska Institutet
-Research Collaboration: National University of Singapore (NUS), Department of Biomedical Informatics
+MSc Health Informatics
 
 **Focus Areas:** Digital Health · Clinical NLP · Interoperability · FHIR · OMOP CDM · Healthcare Analytics
 
